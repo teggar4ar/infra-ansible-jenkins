@@ -6,14 +6,20 @@ pipeline {
     stages {
         stage('Checkout Source') {
             steps {
-                git url: 'https://github.com/orion2182/infra-ansible-jenkins.git'
+                git branch: 'main', url: 'https://github.com/orion2182/infra-ansible-jenkins.git'
             }
         }
 
+        stage('Print Working Directory') {
+            steps {
+                sh 'pwd && ls -lah'
+            }
+        }
+        
         stage('Run Ansible Playbook') {
             steps {
                 sshagent(['ansible-ssh-key']) {
-                    sh 'ansible-playbook -i hosts.ini deploy.yml'
+                    sh 'ansible-playbook -i hosts.ini deploy.yml || exit 1'
                 }
             }
         }
