@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Checkout Source') {
             steps {
-                git branch: 'main', url: 'https://github.com/orion2182/infra-ansible-jenkins.git'
+                git branch: 'main', url: 'https://github.com/teggar4ar/infra-ansible-jenkins.git'
             }
         }
 
@@ -18,8 +18,8 @@ pipeline {
         
         stage('Run Ansible Playbook') {
             steps {
-                sshagent(['ansible-ssh-key']) {
-                    sh 'ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i host.ini deploy.yml || exit 1'
+                sshagent(['ansible-ssh-user']) {
+                    sh 'ansible-playbook -i host.ini deploy.yml || exit 1'
                 }
             }
         }
